@@ -22,4 +22,12 @@ async function getConnection() {
     }
 }
 
+(async () => {
+    const pool = await getConnection();
+
+    if (pool) {
+        console.log("Conexão com o BD realizada com sucesso!");
+    }
+})();
+
 module.exports = {sql, getConnection}

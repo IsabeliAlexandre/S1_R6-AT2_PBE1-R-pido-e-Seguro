@@ -37,8 +37,7 @@ const pedidosModel = {
         }
      },
     
-     inserirPedido: async (idCliente, dataPedido, tipoEntrega, distanciaPedido, pesoPedido, valor_KgPedido, valor_KmPedido ) => {
-        //{itens} realiza a desustruturação do objeto itens
+     inserirPedido: async (idCliente, dataPedido, tipoentregaPedido, distanciaPedido, pesoPedido, valor_KgPedido, valor_KmPedido ) => {
 
         const pool = await getConnection();
 
@@ -55,31 +54,13 @@ const pedidosModel = {
             const result = await transaction.request()
             .input("idCliente", sql.UniqueIdentifier, idCliente)
             .input ("dataPedido", sql.Date, dataPedido)
-            .input("tipoEntrega", sql.VarChar(15), tipoEntrega)
+            .input("tipoentregaPedido", sql.VarChar(15), tipoentregaPedido)
             .input("distanciaPedido", sql.Decimal(10,2), distanciaPedido)
             .input ("pesoPedido", sql.Decimal(10,2), pesoPedido)
             .input("valor_KmPedido", sql.Decimal(10,2), valor_KmPedido)
             .input("valor_KgPedido", sql.Decimal(10,2), valor_KgPedido)
             .query(querySQL);
 
-            /* const idPedido = result.recordset[0].idPedido;  //recordset retorna uam lista (array) 
-            
-            for (const item of itens) {
-                const {idProduto, qtdItem} = item;
-
-                querySQL =`
-
-                INSERT INTO ItemPedido (idPedido, idProduto, qtdItem)
-                VALUES (@idPedido, @idProduto, @qtdItem)
-
-                `
-                await transaction.request()
-                .input("idPedido", sql.UniqueIdentifier, idPedido)
-                .input("idProduto", sql.UniqueIdentifier, idProduto)
-                .input("qtdItem", sql.Int, qtdItem)
-                .query(querySQL);
-
-            } */
 
 
             await transaction.commit() //confirma a transação, salva tudo no banco de dados 
@@ -92,7 +73,7 @@ const pedidosModel = {
         
      },
 
-     atualizarPedido: async (idPedido, idCliente, dataPedido, tipoEntrega, distanciaPedido, pesoPedido, valor_KgPedido, valor_KmPedido ) => {
+     atualizarPedido: async (idPedido, idCliente, dataPedido, tipoentregaPedido, distanciaPedido, pesoPedido, valor_KmPedido, valor_KgPedido ) => {
 
         try {
              
@@ -102,11 +83,11 @@ const pedidosModel = {
                 UPDATE Pedidos
                 SET idCliente = @idCliente,
                     dataPedido = @dataPedido,
-                    tipoEntrega = @tipoEntrega
-                    distanciaPedido = @distanciaPedido
-                    pesoPedido = @pesoPedido
-                    valor_KgPedido = @valor_KgPedido
-                    valor_KmPedido = @valor_KmPedido 
+                    tipoentregaPedido = @tipoentregaPedido,
+                    distanciaPedido = @distanciaPedido,
+                    pesoPedido = @pesoPedido,
+                    valor_KgPedido = @valor_KgPedido,
+                    valor_KmPedido = @valor_KmPedido
                 WHERE idPedido = @idPedido
                 `
 
@@ -114,7 +95,7 @@ const pedidosModel = {
             .input("idCliente", sql.UniqueIdentifier, idCliente)
             .input("idPedido", sql.UniqueIdentifier, idPedido)
             .input("dataPedido", sql.Date, dataPedido)
-            .input("tipoEntrega", sql.VarChar(15), tipoEntrega)
+            .input("tipoentregaPedido", sql.VarChar(15), tipoentregaPedido)
             .input("distanciaPedido", sql.Decimal(10,2), distanciaPedido)
             .input ("pesoPedido", sql.Decimal(10,2), pesoPedido)
             .input("valor_KmPedido", sql.Decimal(10,2), valor_KmPedido)
@@ -136,7 +117,7 @@ const pedidosModel = {
         try {
         
             let querySQL = `
-                DELETE FROM Pedido
+                DELETE FROM PEDIDOS
                 WHERE idPedido = @idPedido
             `
 
