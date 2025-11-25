@@ -21,7 +21,6 @@ const pedidosModel = {
 
     buscarUm: async (idPedido) => {
         try {
-            
             const pool = await getConnection();
             const querySQL = "SELECT * FROM PEDIDOS WHERE idPedido = @idPedido";
 
@@ -37,7 +36,7 @@ const pedidosModel = {
         }
      },
     
-     inserirPedido: async (idCliente, dataPedido, tipoentregaPedido, distanciaPedido, pesoPedido, valor_KgPedido, valor_KmPedido ) => {
+     inserirPedido: async (idCliente, dataPedido, tipo_EntregaPedido, distanciaPedido, pesoPedido, valor_KgPedido, valor_KmPedido ) => {
 
         const pool = await getConnection();
 
@@ -47,21 +46,19 @@ const pedidosModel = {
         try {
 
             let querySQL = `
-            INSERT INTO PEDIDOS (idCliente, dataPedido, tipoentregaPedido, distanciaPedido, pesoPedido, valor_KmPedido, valor_KgPedido)
+            INSERT INTO PEDIDOS (idCliente, dataPedido, tipo_EntregaPedido, distanciaPedido, pesoPedido, valor_KmPedido, valor_KgPedido)
             OUTPUT INSERTED.idPedido
-            VALUES (@idCliente, @dataPedido, @tipoentregaPedido, @distanciaPedido, @pesoPedido, @valor_KmPedido, @valor_KgPedido)`;
+            VALUES (@idCliente, @dataPedido, @tipo_EntregaPedido, @distanciaPedido, @pesoPedido, @valor_KmPedido, @valor_KgPedido)`;
 
             const result = await transaction.request()
             .input("idCliente", sql.UniqueIdentifier, idCliente)
             .input ("dataPedido", sql.Date, dataPedido)
-            .input("tipoentregaPedido", sql.VarChar(15), tipoentregaPedido)
+            .input("tipo_EntregaPedido", sql.VarChar(15), tipo_EntregaPedido)
             .input("distanciaPedido", sql.Decimal(10,2), distanciaPedido)
             .input ("pesoPedido", sql.Decimal(10,2), pesoPedido)
             .input("valor_KmPedido", sql.Decimal(10,2), valor_KmPedido)
             .input("valor_KgPedido", sql.Decimal(10,2), valor_KgPedido)
             .query(querySQL);
-
-
 
             await transaction.commit() //confirma a transação, salva tudo no banco de dados 
 
@@ -73,17 +70,17 @@ const pedidosModel = {
         
      },
 
-     atualizarPedido: async (idPedido, idCliente, dataPedido, tipoentregaPedido, distanciaPedido, pesoPedido, valor_KmPedido, valor_KgPedido ) => {
+     atualizarPedido: async (idPedido, idCliente, dataPedido, tipo_EntregaPedido, distanciaPedido, pesoPedido, valor_KmPedido, valor_KgPedido ) => {
 
         try {
              
             const pool = await getConnection();
 
             const querySQL = `
-                UPDATE Pedidos
+                UPDATE PEDIDOS
                 SET idCliente = @idCliente,
                     dataPedido = @dataPedido,
-                    tipoentregaPedido = @tipoentregaPedido,
+                    tipo_EntregaPedido = @tipo_EntregaPedido,
                     distanciaPedido = @distanciaPedido,
                     pesoPedido = @pesoPedido,
                     valor_KgPedido = @valor_KgPedido,
@@ -95,7 +92,7 @@ const pedidosModel = {
             .input("idCliente", sql.UniqueIdentifier, idCliente)
             .input("idPedido", sql.UniqueIdentifier, idPedido)
             .input("dataPedido", sql.Date, dataPedido)
-            .input("tipoentregaPedido", sql.VarChar(15), tipoentregaPedido)
+            .input("tipo_EntregaPedido", sql.VarChar(15), tipo_EntregaPedido)
             .input("distanciaPedido", sql.Decimal(10,2), distanciaPedido)
             .input ("pesoPedido", sql.Decimal(10,2), pesoPedido)
             .input("valor_KmPedido", sql.Decimal(10,2), valor_KmPedido)
@@ -103,13 +100,13 @@ const pedidosModel = {
             .query(querySQL);
         
         } catch (error) {
-            console.error('Erro ao analiar pedido', error);
+            console.error('Erro ao analisar pedido', error);
             throw error;
         }
         
      },
 
-         deletarPedido: async (idPedido) => {
+     deletarPedido: async (idPedido) => {
         const pool = await getConnection();
         const transaction = new sql.Transaction(pool);
         await transaction.begin();
@@ -121,14 +118,6 @@ const pedidosModel = {
                 WHERE idPedido = @idPedido
             `
 
-            await transaction.request()
-            .input("idPedido", sql.UniqueIdentifier, idPedido)
-            .query(querySQL);
-
-            querySQL = `
-                DELETE FROM Pedidos
-                WHERE idPedido = @idPedido
-            `
             await transaction.request()
             .input("idPedido", sql.UniqueIdentifier, idPedido)
             .query(querySQL);

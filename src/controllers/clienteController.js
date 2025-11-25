@@ -61,7 +61,16 @@ const clienteController = {
     },
 
 
-    
+    // ---------------------
+    // ATUALIZAR UM CLIENTE
+    // PUT /clientes 
+    /*
+        {
+	 ex: "emailCliente": "nicadm.nabby@gmail.com"
+        }
+    */
+    // ---------------------
+
     atualizarCliente: async (req, res) => {
         try {
             const {idCliente} = req.params;
@@ -85,7 +94,7 @@ const clienteController = {
 
             await clienteModel.atualizarCliente(idCliente, nomeClienteAtualizado, cpfClienteAtualizado, telefoneClienteAtualizado, emailClienteAtualizado, enderecoClienteAtualizado);
 
-            res.status(200).json({ message: 'Cliente atualizado com sucesso!' })
+            res.status(200).json({ message: 'Cliente atualizado com sucesso!🥳' })
 
 
         } catch (error) {
@@ -94,6 +103,13 @@ const clienteController = {
         }
     },
     
+    // ---------------------
+    // DELETAR UM  CLIENTE
+    // DELETE /clientes 
+    /*
+        colocar o ID no insomnia.
+    */
+    // ---------------------
 
     deletarCliente: async (req, res) => {
         try {
@@ -110,7 +126,7 @@ const clienteController = {
             }
 
             await clienteModel.deletarCliente(idCliente)
-            res.status(200).json({ message: "Cliente deletado com sucesso!" })
+            res.status(200).json({ message: "Cliente deletado com sucesso!🥳" })
         } catch (error) {
             console.error("Erro ao deletar o cliente", error);
             res.status(500).json({ erro: "Erro interno no servidor ao deletar cliente!" });

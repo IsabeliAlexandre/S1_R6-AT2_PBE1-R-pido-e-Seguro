@@ -9,10 +9,10 @@ router.get("/pedidos", pedidosController.listarPedidos);
 router.post("/pedidos", pedidosController.criarPedidos);
 
 //PUT /pedidos -> atualiza um pedido
-router.put("/pedidos/:idPedidos", pedidosController.atualizarPedido);
+router.put("/pedidos/:idPedido", pedidosController.atualizarPedido);
 
 //DELETE /pedidos -> deleta um pedido
-router.delete("/pedidos/:idPedidos", pedidosController.deletarPedido);
+router.delete("/pedidos/:idPedido", pedidosController.deletarPedido);
 
 module.exports = {pedidosRoutes: router};
 
