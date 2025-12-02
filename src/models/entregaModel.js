@@ -1,6 +1,11 @@
 const { sql, getConnection } = require("../config/db")
 
 const entregaModel = {
+
+    // ---------------------
+    // BUSCA TODOS AS ENTREGAS EXISTENTES
+    // ---------------------
+
      buscarTodos: async() =>{
         try {
             const pool = await getConnection();
@@ -16,6 +21,10 @@ const entregaModel = {
             throw error;
         }
      },
+
+     // ---------------------
+    // PERMITE QUE BUSQUE APENAS UMA ENTREGA ESPECÍFICA COM O ID.
+    // ---------------------
 
      buscarUm: async(idEntrega) =>{
          try {
@@ -33,6 +42,19 @@ const entregaModel = {
         }
      },
 
+
+    // ---------------------
+    // INSERIR UMA NOVA ENTREGA
+    // POST /entregas
+    /*
+        {
+	"idPedido": "5DA7FDD9-831C-43EC-B351-CED126BBDB1B",
+	"statusEntrega": "entregue"
+
+        }
+    */
+    // ---------------------
+
      inserirEntrega: async (idPedido, distanciaEntrega, pesoEntrega, acrescimoEntrega, descontoEntrega, taxaEntrega, valor_finalEntrega, statusEntrega) => {
 
         const pool = await getConnection();
@@ -43,7 +65,7 @@ const entregaModel = {
         try {
 
             let querySQL = `
-            INSERT INTO ENTREGA 
+            INSERT INTO ENTREGA
             (idPedido, distanciaEntrega, pesoEntrega, acrescimoEntrega, descontoEntrega, taxaEntrega, valor_finalEntrega, statusEntrega)
             VALUES
             (@idPedido, @distanciaEntrega, @pesoEntrega, @acrescimoEntrega, @descontoEntrega, @taxaEntrega, @valor_finalEntrega, @statusEntrega)
@@ -69,6 +91,17 @@ const entregaModel = {
         }
      },
 
+
+    // ---------------------
+    // ATUALIZAR UMA ENTREGA
+    // PUT /entregas
+    /*
+        {
+		"statusEntrega": "em trânsito"
+	}
+    */
+    // ---------------------
+
      atualizarEntrega: async (idEntrega, idPedido, distanciaEntrega, pesoEntrega, acrescimoEntrega, descontoEntrega, taxaEntrega, valor_finalEntrega, statusEntrega ) => {
 
         try {
@@ -76,7 +109,7 @@ const entregaModel = {
 
             const querySQL = `
                 UPDATE ENTREGA
-                SET 
+                SET
                     idPedido = @idPedido,
                     distanciaEntrega = @distanciaEntrega,
                     pesoEntrega = @pesoEntrega,
@@ -106,11 +139,19 @@ const entregaModel = {
         }
      },
 
+    // ---------------------
+    // DELETAR ENTREGA
+    // DELETE /entregas
+    /*
+        colocar o ID no routes. 
+    */
+    // ---------------------
+
      deletarEntrega: async (idEntrega) => {
         const pool = await getConnection();
         const transaction = new sql.Transaction(pool);
         await transaction.begin();
-        
+
         try {
             const querySQL = `
                 DELETE FROM ENTREGA

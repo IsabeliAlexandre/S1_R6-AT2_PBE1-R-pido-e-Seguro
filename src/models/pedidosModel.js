@@ -2,6 +2,10 @@ const { sql, getConnection } = require("../config/db")
 
 const pedidosModel = {
 
+    // ---------------------
+    // PERMITE QUE BUSQUE TODOS OS PEDIDOS REGISTRADOS.
+    // ---------------------
+
      buscarTodos: async () => {
         try {
             const pool = await getConnection();
@@ -18,6 +22,11 @@ const pedidosModel = {
             throw error;
         }
      },
+
+
+     // ---------------------
+    // PERMITE QUE BUSQUE APENAS UMA ENTREGA ESPECÍFICA COM O ID.
+    // ---------------------
 
     buscarUm: async (idPedido) => {
         try {
@@ -36,6 +45,22 @@ const pedidosModel = {
         }
      },
     
+    // ---------------------
+    // INSERIR UMA NOVO PEDIDO
+    // POST /pedidos
+    /*
+        {
+	 		"idCliente": "B79ECFE5-A2F3-436D-8322-6989F92E91FB",
+            "dataPedido": "2025-12-02",
+            "tipo_EntregaPedido": "urgente",
+            "distanciaPedido": 20,
+            "pesoPedido": 40,
+            "valor_KmPedido": 5, 
+            "valor_KgPedido": 3
+}
+    */
+    // ---------------------
+
      inserirPedido: async (idCliente, dataPedido, tipo_EntregaPedido, distanciaPedido, pesoPedido, valor_KgPedido, valor_KmPedido ) => {
 
         const pool = await getConnection();
@@ -69,6 +94,16 @@ const pedidosModel = {
         }
         
      },
+
+     // ---------------------
+    // ATUALIZAR UM PEDIDO
+    // PUT /pedido
+    /*
+        {
+	"tipo_EntregaPedido": "normal"
+        }
+    */
+    // ---------------------
 
      atualizarPedido: async (idPedido, idCliente, dataPedido, tipo_EntregaPedido, distanciaPedido, pesoPedido, valor_KmPedido, valor_KgPedido ) => {
 
@@ -105,6 +140,14 @@ const pedidosModel = {
         }
         
      },
+
+    // ---------------------
+    // DELETAR UM PEDIDO
+    // DELETE /pedido
+    /*
+        colocar o ID no routes. 
+    */
+    // ---------------------
 
      deletarPedido: async (idPedido) => {
         const pool = await getConnection();

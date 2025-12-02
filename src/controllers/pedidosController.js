@@ -50,10 +50,15 @@ const pedidosController = {
             await pedidosModel.inserirPedido(idCliente, dataPedido, tipo_EntregaPedido, distanciaPedido, pesoPedido, valor_KmPedido, valor_KgPedido);
             res.status(201).json({ message: "Pedido cadastrado com sucesso" })
 
+        if(isNaN(distanciaPedido,pesoPedido,valor_KmPedido,valor_KgPedido)){
+            return res.status(400).json({ erro: "Erro ao cadastrar dados do pedido" })
+        }
+
         } catch (error) {
             console.error("Erro ao cadrastrar pedido:", error);
             res.status(500).json({ erro: "Erro interno no servidor ao cadastrar pedido" })
         }
+
     },
 
     // ---------------------

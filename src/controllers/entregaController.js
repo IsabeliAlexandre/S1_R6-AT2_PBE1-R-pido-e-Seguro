@@ -39,7 +39,7 @@ const entregaController = {
     },
 
     // ---------------------
-    // CRIAR UMA NOVA ENTREGA
+    // CRIAR UMA NOVA 
     // POST /entregas
     /*
         {
@@ -86,8 +86,10 @@ const entregaController = {
             let desconto = 0;
 
             if (valorBase > 500){
-                desconto = valorBase * 0.1;
+                (desconto = valorBase * 0.1);
             }
+
+            valorTotal = valorBase - desconto
 
             // taxa (se pesar mais de 50kg)
             let taxaAdicional = 0;
@@ -122,34 +124,21 @@ const entregaController = {
 
     atualizarEntrega: async(req, res) => {
         try {
-            const { idEntrega } = req.params;
-            const { idPedido, distanciaEntrega, pesoEntrega, acrescimoEntrega, descontoEntrega, taxaEntrega, valor_finalEntrega, statusEntrega } = req.body;
+            const { idPedido } = req.params;
+            const { distanciaEntrega, pesoEntrega, acrescimoEntrega, descontoEntrega, taxaEntrega, valor_finalEntrega, statusEntrega } = req.body;
 
-            if (!idEntrega || idEntrega.length !== 36) {
-                return res.status(400).json({ erro: "ID da entrega inválido!🚨" });
+            if (!idPedido || idPedido.length !== 36) {
+                return res.status(400).json({ erro: "ID do pedido inválido!🚨" });
             }
 
-            const entrega = await entregaModel.buscarUm(idEntrega);
+            const entrega = await entregaModel.buscarUm(idPedido);
 
             if (!entrega || entrega.length === 0) {
                 return res.status(404).json({ erro: "Entrega não encontrada!🚨" });
             }
 
-            if (idPedido) {
-                if (idPedido.length !== 36) {
-                    return res.status(400).json({ erro: "ID do pedido inválido!" });
-                }
-
-                const pedido = await pedidosModel.buscarUm(idPedido);
-
-                if (!pedido || pedido.length === 0) {
-                    return res.status(404).json({ erro: "Pedido não encontrado!🚨" });
-                }
-            }
-
             const entregaAtual = entrega[0];
 
-            const idPedidoAtualizado = idPedido ?? entregaAtual.idPedido;
             const distanciaEntregaAtualizado = distanciaEntrega ?? entregaAtual.distanciaEntrega;
             const pesoEntregaAtualizado = pesoEntrega ?? entregaAtual.pesoEntrega;
             const acrescimoEntregaAtualizado = acrescimoEntrega ?? entregaAtual.acrescimoEntrega;
@@ -158,9 +147,9 @@ const entregaController = {
             const valor_finalEntregaAtualizado = valor_finalEntrega ?? entregaAtual.valor_finalEntrega;
             const statusEntregaAtualizado = statusEntrega ?? entregaAtual.statusEntrega;
 
-            await entregaModel.atualizarEntrega(idEntrega, idPedidoAtualizado, distanciaEntregaAtualizado, pesoEntregaAtualizado, acrescimoEntregaAtualizado, descontoEntregaAtualizado, taxaEntregaAtualizado, valor_finalEntregaAtualizado, statusEntregaAtualizado);
+            await entregaModel.atualizarEntrega(idPedido, distanciaEntregaAtualizado, pesoEntregaAtualizado, acrescimoEntregaAtualizado, descontoEntregaAtualizado, taxaEntregaAtualizado, valor_finalEntregaAtualizado, statusEntregaAtualizado);
 
-            res.status(200).json({ message: 'Entrega atualizada com sucesso1🥳' });
+            res.status(200).json({ message: 'Entrega atualizada com sucesso!🥳' });
 
         } catch (error) {
             console.error('Erro ao atualizar entrega:', error);
@@ -185,7 +174,7 @@ const entregaController = {
                 return res.status(404).json({ erro: 'Entrega não encontrada!🚨' });
             }
             await entregaModel.deletarEntrega(idEntrega);
-            res.status(200).json({ message: 'Entrega deletado com sucesso!🥳' });
+            res.status(200).json({ message: 'Entrega deletada com sucesso!🥳' });
 
         } catch (error) {
             console.error('Erro ao deletar entrega:', error);

@@ -20,6 +20,7 @@ const clienteController = {
                 return res.status(200).json(CLIENTES)
 
             }
+
             const CLIENTES = await clienteModel.buscarTodos();
             res.status(200).json(CLIENTES)
 
@@ -50,6 +51,19 @@ const clienteController = {
             if (nomeCliente == undefined || cpfCliente == undefined || telefoneCliente == undefined || emailCliente == undefined || enderecoCliente == undefined) {
                 return res.status(400).json({ erro: 'Erro! Os campos obrigatórios não foram preenchidos' });
             }
+
+            //Verifica se o CPF já está cadastrado
+            let verificacaoCpf = await clienteModel.buscarCpf(cpfCliente);
+            if (verificacaoCpf.length > 0) {
+                return res.status(409).json({ message: 'CPF já cadastrado.' });
+            }
+
+            //Verifica se o Email já está cadastrado
+            let verificacaoEmail = await clienteModel.buscarEmail(emailCliente);
+            if (verificacaoEmail.length) {
+                return res.status(409).json({ message: 'Email já cadastrado.' });
+            }
+
 
             await clienteModel.inserirCliente(nomeCliente, cpfCliente, telefoneCliente, emailCliente, enderecoCliente);
             res.status(201).json({ message: 'Cliente cadastrado com sucesso! 🥳' });

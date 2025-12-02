@@ -4,12 +4,13 @@
 ### Clientes 
 
 #### GET /clientes 
-**Descrição**: Obtém uma lista de clientes cadastrados 
-**Response**: 
+- **Descrição**: Obtém uma lista de clientes cadastrados 
+- **Response**: Mostra uma lista de todos os clientes que estão cadastrados
 
 #### POST /clientes
 **Descrição**: Cria um novo cliente
 **Body**: 
+```
  {
             "nomeCliente": "nome",
             "cpfCliente": "00000000000",
@@ -17,11 +18,16 @@
             "emailCliente": "marianinhada.silva@email.com"
             "enderecoCliente": "Logradouro, Número, Bairro, Cidade, Estado, CEP"
         }
+```
 **Response**: 
 
     "message": "Cliente cadastrado com sucesso!"
 
-#### PUT /clientes 
+#### Filtrar clientes 
+- **Descrição**: Consegue filtrar um cliente por vez de acordo com o id:
+#### GET /id do cliente
+
+#### PUT /idCliente 
 **Descrição**: Atualiza os dados dos clientes cadastrados.
 **Body**: 
         {
@@ -30,7 +36,7 @@
 **Response**: 
     "message": "Cliente atualizado com sucesso!"
 
-#### DELETE /clientes 
+#### DELETE /idCliente 
 **Descrição**: Deleta tudo do cliente cadastrado. 
 **Response**: 
     "message": "Cliente deletado com sucesso!"
@@ -57,7 +63,7 @@
 **Response**: 
     "message": "Pedido cadastrado com sucesso!"
 
-#### PUT /pedidos 
+#### PUT /idPedido 
 **Descrição**: Atualiza dados do pedido como por exemplo ostatus de pagamento.
 **Response**: 
     "message": "Pedido atualizado com sucesso!"
@@ -67,21 +73,21 @@
             "tipo_EntregaPedido": "urgente". <- Muda por exemplo o estado em que o pedido do cliente se encontra.
         }
 
-#### DELETE /pedidos 
+#### DELETE /idPedido 
 **Descrição**: Deleta o pedido do cliente.
 **Response**: 
     "message": "Pedido deletado com sucesso!"
 
 
-### Entrega 
+### Entrega
 
 #### GET /entregas
 **Descrição**: Obtém uma lista de todas as entregas cadastradas.
-**Response**: 
+**Response**:
 
 #### POST /entregas
 **Descrição**: Cria uma nova entrega
-**Body**: 
+**Body**:
  [
 	{
 		"idEntrega": "A1D09F97-24AC-42FE-AD60-DDD8BE4BD485",
@@ -95,20 +101,20 @@
 		"statusEntrega": "Entregue"
 	}
 ]
-**Response**: 
+**Response**:
 
     "message": "Entrega cadastrado com sucesso!"
 
-#### PUT /entregas 
+#### PUT /idEntrega
 **Descrição**: Atualiza os dados das entregas cadastrados.
-**Body**: 
+**Body**:
        {
 		"statusEntrega": "Cancelado" <- atualizar por exemplo os status da entrega.
 	    }
-**Response**: 
+**Response**:
     "message": "Entrega atualizada com sucesso!"
 
-#### DELETE /entregas 
-**Descrição**: Deleta tudo da entrega cadastrado. 
-**Response**: 
-    "message": "E#ntrega deletada com sucesso!"
+#### DELETE /idEntrega
+**Descrição**: Deleta tudo da entrega cadastrado.
+**Response**:
+    "message": "Entrega deletada com sucesso!"
